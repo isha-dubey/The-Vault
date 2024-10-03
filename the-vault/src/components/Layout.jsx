@@ -1,5 +1,7 @@
 
 import {ThemeProvider , createTheme , CssBaseline} from "@mui/material"
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
 
 const theme = createTheme(
     {palette: {
@@ -23,17 +25,13 @@ function Layout() {
     return ( <>
 <ThemeProvider theme={theme}>
     <CssBaseline/>
-    <header>
-
-
-    </header>
+    <Header/>
     <main>
-        displaying content
+       <Outlet/>
     </main>
     <footer>
-        
+
     </footer>
-<div>Layout</div>
 </ThemeProvider>
     </> );
 }
