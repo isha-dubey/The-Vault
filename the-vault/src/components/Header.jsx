@@ -1,7 +1,14 @@
 import AppBar from "@mui/material/AppBar";
 import { Badge, Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import ShoppingCartSharpIcon from "@mui/icons-material/ShoppingCartSharp";
+import { useSelector } from "react-redux";
+import { getItemCount } from "../utils";
+
 function Header() {
+  const cartItems = useSelector((state) => state.cart?.value)
+
+  const count =getItemCount(cartItems)
+
   return (
     <>
       <AppBar position="sticky">
@@ -23,7 +30,7 @@ function Header() {
             aria-label="shows cart items count"
             color="inherit"
             >
-            <Badge badgeContent={1} color="error">
+            <Badge badgeContent={count} color="error">
               <ShoppingCartSharpIcon />
             </Badge>
           </IconButton>
