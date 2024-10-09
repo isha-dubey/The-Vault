@@ -1,13 +1,26 @@
 import { Button, CardContent, TextField, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Card, CardMedia, useTheme, Box, Rating } from "@mui/material";
 import { getSubtotal } from "../utils";
+import { addToCart, removeFromCart } from "../feature/cart-slice";
 
 function Cart() {
   const cart = useSelector((state) => state.cart?.value);
   const theme = useTheme();
+  const subtotal = getSubtotal(cart)?.toFixed(2)
+  const dispatch= useDispatch()
+
+  function updateQuantity(e , {product , quantity }){
+    const updatedQuantity = e.value.valueAsNumber
+    if(updatedQuantity < quantity){
+            // remove an item from cart
+            dispatch(removeFromCart)
+    }else{
+        dispatch(addToCart({product}));
+    }
+  }
 
   return (
     <>
@@ -67,6 +80,7 @@ function Cart() {
                           variant="standard"
                             label="Quantity"
                             value={quantity}
+                            onChange = {(e) => updateQuantity(e , { product , quantity})}
                           ></TextField>
                         </form>
                       </Box>
