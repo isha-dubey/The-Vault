@@ -210,8 +210,7 @@ function Header() {
     setAnchorEl(null);
   }
   async function logout() {
-    if(signOut){
-
+    if (signOut) {
       await signOut();
       navigate("/login");
     }
@@ -221,7 +220,7 @@ function Header() {
       anchorEl={anchorEl}
       id="user-profile-menu"
       keepMounted
-            transformOrigin={{
+      transformOrigin={{
         horizontal: "right",
         vertical: "top",
       }}
