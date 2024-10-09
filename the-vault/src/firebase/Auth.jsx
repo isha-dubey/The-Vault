@@ -38,30 +38,30 @@ const AuthContext = createContext(null);
 //The AuthProvider is a component that wraps the entire application (or a portion of it) and makes
 // the authentication context available to any child components inside it.
 const AuthProvider = ({ children }) => {
-  const auth = useProvideAuth();
+  const authValue = useProvideAuth();
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={authValue}>
       {/* auth is authentication object  */}
       {children}
     </AuthContext.Provider>
   );
 };
 
-const useAuth = () => useContext(AuthContext);
+export   const useAuth = () => useContext(AuthContext);
 
 // custom hook for adding user to a state
 // we have all the functionalities coming from the firebase like sign up login in log out , we will use the above context to prodive the values to custo hook
 function useProvideAuth() {
   const [user, setUser] = useState();
-  const signUp = (auth, email, password, displayName) =>
+  const signUp = ( email, password, displayName) =>
     createUserWithEmailAndPassword(email, password).then(({ user }) => {
       updateProfile(user, { displayName });
       setUser(user);
       return user;
     });
 
-  const signIn = (auth, email, password) =>
-    signInWithEmailAndPassword(email, password).then(({ user }) => {
+  const signIn = ( email, password) =>
+    signInWithEmailAndPassword( auth , email, password).then(({ user }) => {
       setUser(user);
       return user;
     });
@@ -73,7 +73,7 @@ function useProvideAuth() {
       user ? setUser(user) : setUser(null);
     });
     return () => unsubscribe;
-  });
+  } , []);
 
   return { signIn, signUp, signOut: signOutUser, user };
 }

@@ -23,6 +23,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
+import { useAuth } from "../firebase/Auth";
 
 // for customisazation for the search bar
 const Search = styled("section")(({ theme }) => ({
@@ -192,6 +193,7 @@ function SearchBar() {
 }
 
 function Header() {
+  const {user} = useAuth()
   const cartItems = useSelector((state) => state.cart?.value);
   const navigate = useNavigate();
   const count = getItemCount(cartItems);
@@ -222,7 +224,7 @@ function Header() {
             <StyledLink to="/">Ecomm</StyledLink>
           </Typography>
           <SearchBar />
-          <Box sx={{ display: { md: "flex" } }}>
+          <Box flexBasis={300} sx={{ display: { md: "flex" } }}>
             <IconButton
               onClick={navigateToCart}
               size="large"
@@ -233,11 +235,12 @@ function Header() {
                 <ShoppingCartSharpIcon />
               </Badge>
             </IconButton>
-          </Box>
-          <Button size="" color="inherit">
+            Hello , {user ? <Button color="inherit">{user?.displayName ?? user.email}</Button> :  <Button size="" color="inherit">
             {" "}
             Login
-          </Button>
+          </Button> }  
+          </Box>
+         
         </Toolbar>
       </AppBar>
     </>
