@@ -19,10 +19,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { fetchAllCategories } from "../feature/categories-slice";
 import { useState } from "react";
-import {useNavigate} from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search"
+import SearchIcon from "@mui/icons-material/Search";
 
 // for customisazation for the search bar
 const Search = styled("section")(({ theme }) => ({
@@ -38,53 +38,54 @@ const Search = styled("section")(({ theme }) => ({
   width: "100%",
 }));
 
-const StyleAutoComplete = styled(Autocomplete)(({ theme }) =>({
+const StyleAutoComplete = styled(Autocomplete)(({ theme }) => ({
   color: "inherit",
-  width :"100%",
+  width: "100%",
   "& .MuiTextField-root": {
-    paddingRight: `calc (1em + ${theme.spacing(4)})`
+    paddingRight: `calc (1em + ${theme.spacing(4)})`,
   },
   "& .MuiInputBase-input": {
-    color : theme.palette.common.white
+    color: theme.palette.common.white,
   },
-  "& .MuiOutlinedInput-notchedOutline":{
-     border:"none"
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "none",
   },
-  "& .MuiSvgIcon-root":{
-    fill : theme.palette.common.white
-  }
+  "& .MuiSvgIcon-root": {
+    fill: theme.palette.common.white,
+  },
+}));
 
-}))
+const SearchIconWrapper = styled("section")(({ theme }) => ({
+  padding: theme.spacing(2),
+  height: "100%",
+  position: "absolute",
+  right: 20,
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
 
-const SearchIconWrapper = styled("section")(({ theme }) =>({
-
-padding : theme.spacing(2),
-height : "100%",
-position:"absolute",
-right : 20,
-pointerEvents : "none",
-display:"flex",
-alignItems : "center",
-justifyContent : "center"
-
- 
-}))
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.common.white,
+  textDecoration: "none",
+}));
 
 function SearchBar() {
-  const theme = useTheme()
+  const theme = useTheme();
   const categories = useSelector((state) => state?.categories?.value);
   const products = useSelector((state) => state?.products?.value);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [selectedCat, setSelectCat] = useState("null");
-  const [selectedProd , setSelectedProd] = useState()
+  const [selectedProd, setSelectedProd] = useState();
   const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get("searchTerm")
-  const category = searchParams.get("category")
+  const searchTerm = searchParams.get("searchTerm");
+  const category = searchParams.get("category");
 
- useEffect(() => {
-  setSelectCat(category ? category : "all")
- } , [category])
+  useEffect(() => {
+    setSelectCat(category ? category : "all");
+  }, [category]);
 
   if (!categories?.length) {
     dispatch(fetchAllCategories());
@@ -93,17 +94,23 @@ function SearchBar() {
   function handleCategoryChange(event) {
     const { value } = event.target;
     setSelectCat(value);
-    navigate(value === "all" ? "/":`/?category=${value}${searchTerm?"&searchterm=" + searchTerm : ""}`)
+    navigate(
+      value === "all"
+        ? "/"
+        : `/?category=${value}${searchTerm ? "&searchterm=" + searchTerm : ""}`
+    );
   }
 
-  function handleSearchChange(searchTerm){
-     if(searchTerm){
-      navigate(selectedCat === "all" ? `?searchterm=${searchTerm}` :
-      `/?category=${selectedCat}&searchterm=${searchTerm}`)
-     }else {
-      navigate(selectedCat === "all" ? `/` :
-      `/?category=${selectedCat}`)
-     }
+  function handleSearchChange(searchTerm) {
+    if (searchTerm) {
+      navigate(
+        selectedCat === "all"
+          ? `?searchterm=${searchTerm}`
+          : `/?category=${selectedCat}&searchterm=${searchTerm}`
+      );
+    } else {
+      navigate(selectedCat === "all" ? `/` : `/?category=${selectedCat}`);
+    }
   }
 
   return (
@@ -115,21 +122,20 @@ function SearchBar() {
           m: 1,
           textTransform: "capitalize",
           "&": {
-            "::before":{
-              ":hover":{
-                border:"none",
-
+            "::before": {
+              ":hover": {
+                border: "none",
               },
             },
-            "::before , &::after":{
-              border:"none", 
+            "::before , &::after": {
+              border: "none",
             },
-            ".MuiSelect-standard":{
+            ".MuiSelect-standard": {
               color: "common.white",
             },
-            ".MuiSelect-icon":{
-              fill : theme.palette.common.white
-            }
+            ".MuiSelect-icon": {
+              fill: theme.palette.common.white,
+            },
           },
         }}
         variant="standard"
@@ -160,22 +166,26 @@ function SearchBar() {
       </Select>
 
       <StyleAutoComplete
-      freeSolo
-      id="selected-product"
-     value={selectedProd}
-      onChange={(e , value) => {
-        console.log(value);
-        handleSearchChange(value?.label)
-      }}
-     
-        options={Array.from(selectedCat === "all" ? products : products.filter(prod => prod.category === selectedCat), (prod) => ({
-          id: prod.id,
-          label: prod.title,
-        }))}
-        renderInput={(params) => <TextField {...params}  />}
+        freeSolo
+        id="selected-product"
+        value={selectedProd}
+        onChange={(e, value) => {
+          console.log(value);
+          handleSearchChange(value?.label);
+        }}
+        options={Array.from(
+          selectedCat === "all"
+            ? products
+            : products.filter((prod) => prod.category === selectedCat),
+          (prod) => ({
+            id: prod.id,
+            label: prod.title,
+          })
+        )}
+        renderInput={(params) => <TextField {...params} />}
       />
       <SearchIconWrapper>
-        <SearchIcon/>
+        <SearchIcon />
       </SearchIconWrapper>
     </Search>
   );
@@ -183,13 +193,25 @@ function SearchBar() {
 
 function Header() {
   const cartItems = useSelector((state) => state.cart?.value);
-
+  const navigate = useNavigate();
   const count = getItemCount(cartItems);
-
+  function navigateToCart() {
+    navigate("/cart");
+  }
   return (
     <>
-      <AppBar position="sticky">
-        <Toolbar>
+      <AppBar
+        sx={{
+          py: 1,
+        }}
+        position="sticky"
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            gap: 2,
+          }}
+        >
           <Typography
             variant="h6"
             color="inherit"
@@ -197,11 +219,12 @@ function Header() {
             //   flexGrow: 1,
             // }}
           >
-            Ecomm
+            <StyledLink to="/">Ecomm</StyledLink>
           </Typography>
           <SearchBar />
           <Box sx={{ display: { md: "flex" } }}>
             <IconButton
+              onClick={navigateToCart}
               size="large"
               aria-label="shows cart items count"
               color="inherit"
