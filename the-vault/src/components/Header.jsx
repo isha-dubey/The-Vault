@@ -8,6 +8,7 @@ import {
   Box,
   Button,
   IconButton,
+  Menu,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -193,13 +194,49 @@ function SearchBar() {
 }
 
 function Header() {
-  const {user} = useAuth()
+  const { user, signOut } = useAuth();
   const cartItems = useSelector((state) => state.cart?.value);
   const navigate = useNavigate();
   const count = getItemCount(cartItems);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
   function navigateToCart() {
     navigate("/cart");
   }
+  function handleProfileMenuOpen(e) {
+    setAnchorEl(e.currentTarget);
+  }
+  function handleMenuClose() {
+    setAnchorEl(null);
+  }
+  async function logout() {
+    if(signOut){
+
+      await signOut();
+      navigate("/login");
+    }
+  }
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      id="user-profile-menu"
+      keepMounted
+            transformOrigin={{
+        horizontal: "right",
+        vertical: "top",
+      }}
+      anchorOrigin={{
+        horizontal: "right",
+        vertical: "bottom",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+      <MenuItem onClick={logout}>Logout</MenuItem>
+    </Menu>
+  );
   return (
     <>
       <AppBar
@@ -224,7 +261,7 @@ function Header() {
             <StyledLink to="/">Ecomm</StyledLink>
           </Typography>
           <SearchBar />
-          <Box flexBasis={300} sx={{ display: { md: "flex" } }}>
+          <Box flexBasis={600} sx={{ display: { md: "flex" } }}>
             <IconButton
               onClick={navigateToCart}
               size="large"
@@ -235,14 +272,21 @@ function Header() {
                 <ShoppingCartSharpIcon />
               </Badge>
             </IconButton>
-            Hello , {user ? <Button color="inherit">{user?.displayName ?? user.email}</Button> :  <Button size="" color="inherit">
-            {" "}
-            Login
-          </Button> }  
+            Hello ,{" "}
+            {user ? (
+              <Button onClick={handleProfileMenuOpen} color="inherit">
+                {user?.displayName ?? user.email}
+              </Button>
+            ) : (
+              <Button size="" color="inherit">
+                {" "}
+                Login
+              </Button>
+            )}
           </Box>
-         
         </Toolbar>
       </AppBar>
+      {renderMenu}
     </>
   );
 }
