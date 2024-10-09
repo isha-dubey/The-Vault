@@ -5,21 +5,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, CardMedia, useTheme, Box, Rating } from "@mui/material";
 import { getSubtotal } from "../utils";
 import { addToCart, removeFromCart } from "../feature/cart-slice";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const cart = useSelector((state) => state.cart?.value);
   const theme = useTheme();
-  const subtotal = getSubtotal(cart)?.toFixed(2)
-  const dispatch= useDispatch()
+  const subtotal = getSubtotal(cart)?.toFixed(2);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  function updateQuantity(e , {product , quantity }){
-    const updatedQuantity = e.value.valueAsNumber
-    if(updatedQuantity < quantity){
-            // remove an item from cart
-            dispatch(removeFromCart)
-    }else{
-        dispatch(addToCart({product}));
+  function updateQuantity(e, { product, quantity }) {
+    const updatedQuantity = e.target.valueAsNumber;
+    if (updatedQuantity < quantity) {
+      // remove an item from cart
+      dispatch(removeFromCart({ product }));
+    } else {
+      dispatch(addToCart({ product }));
     }
+  }
+
+  function goToHome() {
+    navigate("/");
+  }
+  function checkoutItems() {
+    navigate("/checkout");
   }
 
   return (
@@ -53,7 +62,6 @@ function Cart() {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-
                       }}
                     >
                       <Box
@@ -67,26 +75,27 @@ function Cart() {
                         <Rating readOnly precision={0.5} value={rating.rate} />
                         <form>
                           <TextField
-                          sx={{
-                            width : theme.spacing(8),
-                          }}
-                          inputProps = {{
-                            min:0 , 
-                            max: 10,
-
-                          }}
-                          id={`${id}-product-id`}
-                          type="number"
-                          variant="standard"
+                            sx={{
+                              width: theme.spacing(8),
+                            }}
+                            inputProps={{
+                              min: 0,
+                              max: 10,
+                            }}
+                            id={`${id}-product-id`}
+                            type="number"
+                            variant="standard"
                             label="Quantity"
                             value={quantity}
-                            onChange = {(e) => updateQuantity(e , { product , quantity})}
+                            onChange={(e) =>
+                              updateQuantity(e, { product, quantity })
+                            }
                           ></TextField>
                         </form>
                       </Box>
                       <Box>
                         <Typography variant="h5" paragraph>
-                          {getSubtotal([{ product, quantity }])}
+                          {getSubtotal([{ product, quantity }])?.toFixed(2)}
                         </Typography>
                       </Box>
                     </CardContent>
@@ -95,24 +104,42 @@ function Cart() {
               );
             })}
           </Grid>
-          <Grid item container md={4} sx={{
-            display: "flex",
-            justifyContent : "center",
-
-          }} >
-            <Box sx={{
-                width:"100%"
-            }}>
-                <Card sx={{
-                    padding:2,
-                    display :"flex",
-                    flexDirection : "column",
-                    gap:2,
-                }}>
-            <Typography variant="h5">Subtotal</Typography>
-            <Typography variant="h5">{subtotal > 0 ? <Button variant="contained"> Buy Now</Button> : <Button variant="contained">Shop products</Button>}</Typography>
-
-                </Card>
+          <Grid
+            item
+            container
+            md={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+              }}
+            >
+              <Card
+                sx={{
+                  padding: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
+                <Typography variant="h4">Subtotal</Typography>
+                <Typography variant="h5">
+                  {subtotal > 0 ? (
+                    <Button variant="contained" onClick={checkoutItems}>
+                      {" "}
+                      Buy Now
+                    </Button>
+                  ) : (
+                    <Button variant="contained" onClick={goToHome}>
+                      Shop products
+                    </Button>
+                  )}
+                </Typography>
+              </Card>
             </Box>
           </Grid>
         </Grid>
