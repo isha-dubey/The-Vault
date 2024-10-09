@@ -1,44 +1,57 @@
+import "./App.css";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createRoutesFromElements } from "react-router-dom";
+import { RouterProvider, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import Cart from "./pages/Cart";
+import Login from "./pages/Login";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import Checkout from "./pages/Checkout";
+import AuthProvider, { useAuth } from "./firebase/Auth";
 
-import './App.css'
-import { createBrowserRouter } from 'react-router-dom'
-import { createRoutesFromElements } from 'react-router-dom'
-import { RouterProvider , Route } from 'react-router-dom'
-import Layout from './components/Layout'
-import Home from './pages/Home'
-import Cart from './pages/Cart'
-import Login from './pages/Login'
-import {Provider} from"react-redux"
-import {store} from "./store"
-import Checkout from './pages/Checkout'
-import AuthProvider from './firebase/Auth'
+//creatin a protectroute in order to force the user to login
+
+function ProtectedRoute({ childer }) {
+  const { user } = useAuth();
+  if (!user) {
+    return <Navigate to={"/login"} />;
+  }
+  return childer;
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-    <Route path="/" element={<Layout/> }>
-      <Route index element={<Home/>}/>
-      <Route path="/cart" index element={<Cart/>}/>
-      <Route path="/checkout" index element={<Checkout/>}/>
-    </Route>
-      <Route path="/login" index element={<Login/>}/>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/cart" index element={<Cart />} />
+        <Route
+          path="/checkout"
+          index
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
+      <Route path="/login" index element={<Login />} />
     </>
   )
-)
+);
 
 function App() {
-
   return (
     <>
-    <AuthProvider>
-
-
- <Provider store={store}>
-<RouterProvider router={router}/>
- </Provider>
-    </AuthProvider>
-  
+      <AuthProvider>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </AuthProvider>
     </>
-  )
+  );
 }
 
 export default App;
