@@ -14,12 +14,12 @@ import Register from "./pages/Register";
 
 //creatin a protectroute in order to force the user to login
 
-function ProtectedRoute({ childer }) {
+function ProtectedRoute({ children }) {
   const { user } = useAuth();
   if (!user) {
     return <Navigate to={"/login"} />;
   }
-  return childer;
+  return children;
 }
 
 const router = createBrowserRouter(
@@ -27,10 +27,10 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/cart" index element={<Cart />} />
+        <Route path="/cart"  element={<Cart />} />
         <Route
           path="/checkout"
-          index
+          
           element={
             <ProtectedRoute>
               <Checkout />
@@ -38,8 +38,8 @@ const router = createBrowserRouter(
           }
         />
       </Route>
-      <Route path="/login" index element={<Login />} />
-      <Route path="/register" index element={<Register />} />
+      <Route path="/login"  element={<Login />} />
+      <Route path="/register"  element={<Register />} />
       
     </>
   )

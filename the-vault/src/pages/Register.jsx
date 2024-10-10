@@ -13,8 +13,6 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import LockOutlined from "@mui/icons-material/LockOutlined";
-import { FormControlLabel, useTheme } from "@mui/material";
 import { useAuth } from "../firebase/Auth";
 import { useNavigate } from "react-router-dom";
 
