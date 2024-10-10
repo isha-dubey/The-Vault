@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import Checkout from "./pages/Checkout";
 import AuthProvider, { useAuth } from "./firebase/Auth";
+import Register from "./pages/Register";
 
 //creatin a protectroute in order to force the user to login
 
@@ -38,6 +39,8 @@ const router = createBrowserRouter(
         />
       </Route>
       <Route path="/login" index element={<Login />} />
+      <Route path="/register" index element={<Register />} />
+      
     </>
   )
 );
