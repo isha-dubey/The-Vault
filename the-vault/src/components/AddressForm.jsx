@@ -1,11 +1,14 @@
 import { Box, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function Address() {
-
-    function updateAddress(event){
-        console.log(event.target)
-        
-    }
+  const address = useSelector((state) => state.checkout?.address);
+  const dispatch = useDispatch();
+  function updateAddress(event) {
+    const { name, target } = event.target;
+    dispatch(updateAddress({ [name]: value }));
+  }
 
   return (
     <>
@@ -75,7 +78,6 @@ function Address() {
               name="zip code"
               label="Zip code / Postal code"
               fullWidth
-            
               variant="standard"
             ></TextField>
           </Grid>
@@ -86,7 +88,6 @@ function Address() {
               name="country"
               label="Country"
               fullWidth
-              
               variant="standard"
             ></TextField>
           </Grid>
