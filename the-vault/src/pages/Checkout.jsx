@@ -9,13 +9,14 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
+import Address from "../components/AddressForm";
 
 const steps = ["Shipping Address", "Payment Details", "Review Order"];
 
 function getStepContent(activeStep) {
   switch (activeStep) {
     case 0:
-      return <h1> Address</h1>;
+      return <Address/>;
     case 1:
       return <h1> Payment Details</h1>;
     case 2:
