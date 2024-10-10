@@ -20,17 +20,16 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const theme = useTheme();
-  const {signIn} = useAuth()
-//   console.log(useAuth())
-  const navigate = useNavigate()
+  const { signIn } = useAuth();
+  //   console.log(useAuth())
+  const navigate = useNavigate();
 
   async function login(event) {
-      event.preventDefault();
-      console.log(event.email)
-    const {email , password} = event.target
-    await signIn(email.value , password.value)
-    navigate("/")
-
+    event.preventDefault();
+    console.log(event.email);
+    const { email, password } = event.target;
+    await signIn(email.value, password.value);
+    navigate("/");
   }
   return (
     <>
@@ -57,14 +56,16 @@ function Login() {
             Sign In
           </Typography>
           <form
-            onSubmit={()=>{login(event)}}
+            onSubmit={() => {
+              login(event);
+            }}
             sx={{
               width: "100%",
               mt: 1,
             }}
           >
             <TextField
-            label="email"
+              label="email"
               variant="outlined"
               margin="normal"
               required
@@ -76,7 +77,7 @@ function Login() {
               autoComplete="off"
             ></TextField>
             <TextField
-            label="password"
+              label="password"
               variant="outlined"
               margin="normal"
               required
@@ -99,6 +100,13 @@ function Login() {
               Sign In
             </Button>
           </form>
+          <Grid container justifyContent={"flex-end"}>
+            <Grid item>
+              <Link variant="body2" href="/register">
+                New User? Sign Up
+              </Link>
+            </Grid>
+          </Grid>
         </Box>
       </Container>
     </>
