@@ -5,12 +5,36 @@ import {
   Stepper,
   Step,
   StepLabel,
+  Box,
+  Button,
 } from "@mui/material";
 import { useState } from "react";
 
+const steps = ["Shipping Address", "Payment Details", "Review Order"];
+
+function getStepContent(activeStep) {
+  switch (activeStep) {
+    case 0:
+      return <h1> Address</h1>;
+    case 1:
+      return <h1> Payment Details</h1>;
+    case 2:
+      return <h1>Review</h1>;
+    default:
+      throw new Error("Unknown Step");
+  }
+}
+
 function Checkout() {
-  const steps = ["Shipping Address", "Payment Details", "Review Order"];
   const [activeStep, setActiveStep] = useState(0);
+
+  function handleNext() {
+    setActiveStep(activeStep + 1);
+  }
+  function handleBack() {
+    setActiveStep(activeStep - 1);
+  }
+
   return (
     <>
       <Container
@@ -44,6 +68,47 @@ function Checkout() {
               </Step>
             ))}
           </Stepper>
+          {activeStep === steps.length ? (
+            <>
+              <Typography>Thankyou you your order</Typography>
+              <Typography>Your order number is #12234....</Typography>
+            </>
+          ) : (
+            <>
+              {getStepContent(activeStep)}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {activeStep != 0 && (
+                  <Button
+                    variant="contained"
+                    sx={{
+                      mt: 3,
+                      ml: 1,
+                    }}
+                    onClick={handleBack}
+                  >
+                    {" "}
+                    Backk
+                  </Button>
+                )}
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  sx={{
+                    mt: 3,
+                    ml: 1,
+                  }}
+                >
+                  {" "}
+                  {activeStep === steps.length - 1 ? " Place Order " : "Next"}
+                </Button>
+              </Box>
+            </>
+          )}
         </Paper>
       </Container>
     </>
