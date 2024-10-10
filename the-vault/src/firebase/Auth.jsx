@@ -11,10 +11,10 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   updateProfile,
-  signOut
+  signOut,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { createContext, useEffect , useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -48,21 +48,21 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export   const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);
 
 // custom hook for adding user to a state
 // we have all the functionalities coming from the firebase like sign up login in log out , we will use the above context to prodive the values to custo hook
 function useProvideAuth() {
   const [user, setUser] = useState();
-  const signUp = ( email, password, displayName) =>
-    createUserWithEmailAndPassword(email, password).then(({ user }) => {
+  const signUp = (email, password, displayName) =>
+    createUserWithEmailAndPassword(auth, email, password).then(({ user }) => {
       updateProfile(user, { displayName });
       setUser(user);
       return user;
     });
 
-  const signIn = ( email, password) =>
-    signInWithEmailAndPassword( auth , email, password).then(({ user }) => {
+  const signIn = (email, password) =>
+    signInWithEmailAndPassword(auth, email, password).then(({ user }) => {
       setUser(user);
       return user;
     });
@@ -74,7 +74,7 @@ function useProvideAuth() {
       user ? setUser(user) : setUser(null);
     });
     return () => unsubscribe;
-  } , []);
+  }, []);
 
   return { signIn, signUp, signOut: handleSignOut, user };
 }

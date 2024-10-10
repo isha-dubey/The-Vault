@@ -28,7 +28,7 @@ function Register() {
    async  function registerUser(event){
         event.preventDefault()
         const data = new FormData(event.currentTarget)
-     await   signUp(data.get("email") , data.get("password") , data,get("name") )
+     await   signUp(data.get("email") , data.get("password") , data.get("name") )
      navigate("/login")
         // if(){
 
