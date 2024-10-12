@@ -1,11 +1,20 @@
-import { List, ListItem, ListItemText, Typography } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 import { getSubtotal } from "../utils";
 
 function ReviewForm() {
   const cart = useSelector((state) => state.cart.value);
   const address = useSelector((state) => state.checkout.address);
+  const 
   const payment = useSelector((state) => state.checkout.payment);
+  const theme = useTheme();
+
 
   return (
     <>
@@ -16,7 +25,14 @@ function ReviewForm() {
         {cart?.map(({ product, quantity }) => (
           <ListItem key={product.title} sx={{ py: 1, px: 0 }}>
             <ListItemText
-              sx={{}}
+              sx={{
+                "& .MuiListItemText-primary": {
+                  fontWeight: 500,
+                },
+                "& .MuiListItemText-primary": {
+                  fontSize: theme.spacing(2),
+                },
+              }}
               primary={product.title}
               secondary={`Qty : ${quantity}`}
             />
@@ -25,6 +41,26 @@ function ReviewForm() {
             </Typography>
           </ListItem>
         ))}
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText primary="Total" />
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 700,
+            }}
+          >
+            {" "}
+            {getSubtotal(cart)?.toFixed(2)}
+          </Typography>
+        </ListItem>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+                Shipping 
+            </Typography>
+            <Typography></Typography>
+          </Grid>
+        </Grid>
       </List>
     </>
   );
