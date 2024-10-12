@@ -4,6 +4,7 @@ import {
   ListItemText,
   Typography,
   useTheme,
+  Grid
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { getSubtotal } from "../utils";
@@ -11,10 +12,9 @@ import { getSubtotal } from "../utils";
 function ReviewForm() {
   const cart = useSelector((state) => state.cart.value);
   const address = useSelector((state) => state.checkout.address);
-  const 
+  const addresses = address ? Object.values(address) : [];
   const payment = useSelector((state) => state.checkout.payment);
   const theme = useTheme();
-
 
   return (
     <>
@@ -56,9 +56,15 @@ function ReviewForm() {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                Shipping 
+              Shipping
             </Typography>
-            <Typography></Typography>
+            <Typography gutterBottom>{addresses.join(", ")}</Typography>
+          </Grid>
+        <Grid item container directio ="column" xs={12} sm={6} sx={{ mt: 2 }}>
+                <Typography variant="h6">Payment Details</Typography>
+                <Grid container>
+                    {payment}
+                </Grid>
           </Grid>
         </Grid>
       </List>
