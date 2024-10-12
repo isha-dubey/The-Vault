@@ -1,12 +1,13 @@
 import { Box, Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { updateAddress} from "../feature/checkout-slice"
 
 function Address() {
   const address = useSelector((state) => state.checkout?.address);
   const dispatch = useDispatch();
-  function updateAddress(event) {
-    const { name, target } = event.target;
+  function handleChange(event) {
+    const { name, value } = event.target ?? {};
     dispatch(updateAddress({ [name]: value }));
   }
 
@@ -15,7 +16,7 @@ function Address() {
       <Typography variant="h6" gutterButtom>
         Shipping Address
       </Typography>
-      <Box component="form" onChange={updateAddress}>
+      <Box component="form" onChange={handleChange}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -26,6 +27,7 @@ function Address() {
               fullWidth
               autoComplete="given-name"
               variant="standard"
+              defaultValue={address.FirstName ?? ""}
             ></TextField>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -37,6 +39,8 @@ function Address() {
               fullWidth
               autoComplete="given-name"
               variant="standard"
+              defaultValue={address.LastName ?? ""}
+
             ></TextField>
           </Grid>
           <Grid item xs={12}>
@@ -48,6 +52,8 @@ function Address() {
               fullWidth
               autoComplete="shipping address-line1"
               variant="standard"
+              defaultValue={address.address1 ?? ""}
+
             ></TextField>
           </Grid>
           <Grid item xs={12}>
@@ -59,6 +65,8 @@ function Address() {
               fullWidth
               autoComplete="shipping address-line2"
               variant="standard"
+              defaultValue={address.address2 ?? ""}
+
             ></TextField>
           </Grid>
           <Grid item xs={12}>
@@ -69,16 +77,20 @@ function Address() {
               label="City"
               fullWidth
               variant="standard"
+              defaultValue={address.city ?? ""}
+
             ></TextField>
           </Grid>
           <Grid item xs={12}>
             <TextField
               required
-              id="zip code"
-              name="zip code"
+              id="zipCode"
+              name="zipCode"
               label="Zip code / Postal code"
               fullWidth
               variant="standard"
+              defaultValue={address.zipCode ?? ""}
+
             ></TextField>
           </Grid>
           <Grid item xs={12}>
@@ -89,6 +101,8 @@ function Address() {
               label="Country"
               fullWidth
               variant="standard"
+              defaultValue={address.country ?? ""}
+
             ></TextField>
           </Grid>
         </Grid>
