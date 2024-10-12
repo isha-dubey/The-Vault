@@ -14,6 +14,17 @@ function ReviewForm() {
   const address = useSelector((state) => state.checkout.address);
   const addresses = address ? Object.values(address) : [];
   const payment = useSelector((state) => state.checkout.payment);
+  const payments = payment ? [{
+    name:"Card Type" , detail : "Visa"
+  },
+  {
+    name:"Card Number" , detail : payment.cardNumber
+  },{
+    name:"Card Holder" , detail : payment.name
+  },{
+    name:"Expiry Date" , detail : payment.expDate
+  },] : []
+
   const theme = useTheme();
 
   return (
@@ -63,7 +74,18 @@ function ReviewForm() {
         <Grid item container directio ="column" xs={12} sm={6} sx={{ mt: 2 }}>
                 <Typography variant="h6">Payment Details</Typography>
                 <Grid container>
-                    {payment}
+                    {payments.map(({name , detail}) => <>
+                    <Grid  key={name} item xs={6} gutterBottom >
+                        <Typography>
+                            {name}
+                        </Typography>
+                    </Grid>
+                    <Grid  key={detail} item xs={6} gutterBottom>
+                        <Typography>
+                            {detail}
+                        </Typography>
+                    </Grid>
+                    </>)}
                 </Grid>
           </Grid>
         </Grid>
