@@ -84,7 +84,7 @@ function Checkout() {
           {activeStep === steps.length ? (
             <>
               <Typography>Thankyou you your order</Typography>
-              <Typography>Your order number is #12234....</Typography>
+              <Typography>Your order number is #1223453. We have emailed you the details regarding your order confirmation.</Typography>
             </>
           ) : (
             <>
