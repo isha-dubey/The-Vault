@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import Address from "../components/AddressForm";
 import PaymentsForm from "../components/PaymentsForm";
+import ReviewForm from "../components/ReviewForm";
 
 const steps = ["Shipping Address", "Payment Details", "Review Order"];
 
@@ -21,7 +22,7 @@ function getStepContent(activeStep) {
     case 1:
       return <PaymentsForm/>;
     case 2:
-      return <h1>Review</h1>;
+      return <ReviewForm/>;
     default:
       throw new Error("Unknown Step");
   }
