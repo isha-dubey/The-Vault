@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import Address from "../components/AddressForm";
 import PaymentsForm from "../components/PaymentsForm";
 import ReviewForm from "../components/ReviewForm";
@@ -85,6 +86,7 @@ function Checkout() {
             <>
               <Typography>Thankyou you your order</Typography>
               <Typography>Your order number is #1223453. We have emailed you the details regarding your order confirmation.</Typography>
+              <Link to="/" >Shop More</Link>
             </>
           ) : (
             <>
