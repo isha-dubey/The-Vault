@@ -271,10 +271,10 @@ function Header() {
                 <ShoppingCartSharpIcon />
               </Badge>
             </IconButton>
-            Hello ,{" "}
+            {" "}
             {user ? (
               <Button onClick={handleProfileMenuOpen} color="inherit">
-                {user?.displayName ?? user.email}
+                Hello ,  {user?.displayName ?? user.email}
               </Button>
             ) : (
               <Button size="" color="inherit">
