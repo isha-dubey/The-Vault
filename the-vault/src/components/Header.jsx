@@ -257,7 +257,7 @@ function Header() {
             //   flexGrow: 1,
             // }}
           >
-            <StyledLink to="/">Ecomm</StyledLink>
+            <StyledLink to="/">Vault</StyledLink>
           </Typography>
           <SearchBar />
           <Box flexBasis={600} sx={{ display: { md: "flex" } }}>

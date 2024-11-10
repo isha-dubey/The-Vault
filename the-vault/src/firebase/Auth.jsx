@@ -21,12 +21,12 @@ import { useContext } from "react";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBYoWbNbLUogYym6nX54ZOZVwJ82d5oGz0",
-  authDomain: "the-vault-14.firebaseapp.com",
-  projectId: "the-vault-14",
-  storageBucket: "the-vault-14.appspot.com",
-  messagingSenderId: "1086575988310",
-  appId: "1:1086575988310:web:26b53dcab397f5c5fe35f7",
+  apiKey: "AIzaSyBL4smNQqE5hunXEr8Ar3oaOAb_R46QpE8",
+  authDomain: "real-trust-f9b61.firebaseapp.com",
+  projectId: "real-trust-f9b61",
+  storageBucket: "real-trust-f9b61.firebasestorage.app",
+  messagingSenderId: "127950695292",
+  appId: "1:127950695292:web:d1b06790e58b6b585f52f9"
 };
 
 // Initialize Firebase
